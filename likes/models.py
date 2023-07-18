@@ -1,20 +1,13 @@
 from django.db import models
 
 # Create your models here.
-from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
 
-class Tag(models.Model):
-    label = models.CharField(max_length=255)
-
-
-class TagItem(models.Model):
-    # What tah applied to what object
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-
-    # Type (product, video, article)
-    # ID
+class LikeItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
