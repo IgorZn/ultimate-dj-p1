@@ -11,5 +11,10 @@
     <h>Hello world!</h>
 {% endif %}
 
+{% for product in products %}
+{#    <p>{{ product.id }} {{ product.unit_price }} {{ product.title }} {{ product.collections__title }}</p>#}
+    <p>{{ product}}</p>
+{% endfor %}
+
 </body>
 </html>
