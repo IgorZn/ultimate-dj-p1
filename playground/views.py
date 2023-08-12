@@ -25,6 +25,8 @@ def say_hello(request):
     products = Product.objects.earliest('-unit_price', 'collections_id')
     products = Product.objects.latest('-unit_price', 'collections_id')
     products = Product.objects.all()[:5]
+    products = Product.objects.values('id', 'title', 'collections__title')[:5]
+    products = Product.objects.values_list('id', 'title', 'collections__title')[:5]
 
     context = {
         'name': 'Igor',

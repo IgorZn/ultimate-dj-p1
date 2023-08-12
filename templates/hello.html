@@ -13,7 +13,8 @@
 <ul>
 {#    <li>{{ products.id }}, {{ products.description }}, {{ products.title }}</li>#}
     {% for product in products %}
-        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>
+{#        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>#}
+        <li>{{ product}}</li>
     {% endfor %}
 </ul>
 
