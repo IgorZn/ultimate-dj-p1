@@ -20,6 +20,10 @@ def say_hello(request):
 
     products = Product.objects.values('id', 'title', 'collections__title')[:10]
     products = Product.objects.values_list('id', 'title', 'collections__title')[:10]
+    products = Product.objects.filter(pk=F('collections__id'))
+    products = Product.objects.all().order_by('-unit_price', 'collections_id').reverse().first()
+    products = Product.objects.earliest('-unit_price', 'collections_id')
+    products = Product.objects.latest('-unit_price', 'collections_id')
 
     context = {
         'name': 'Igor',

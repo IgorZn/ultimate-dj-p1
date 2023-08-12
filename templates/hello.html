@@ -10,11 +10,14 @@
 {% else %}
     <h>Hello world!</h>
 {% endif %}
+<ul>
+    <li>{{ products.id }}, {{ products.description }}, {{ products.title }}</li>
+{#    {% for product in products %}#}
+{#        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>#}
+        {#    <p>{{ product}}</p>#}
+{#    {% endfor %}#}
+</ul>
 
-{% for product in products %}
-{#    <p>{{ product.id }} {{ product.unit_price }} {{ product.title }} {{ product.collections__title }}</p>#}
-    <p>{{ product}}</p>
-{% endfor %}
 
 </body>
 </html>
