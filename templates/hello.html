@@ -11,11 +11,10 @@
     <h>Hello world!</h>
 {% endif %}
 <ul>
-    <li>{{ products.id }}, {{ products.description }}, {{ products.title }}</li>
-{#    {% for product in products %}#}
-{#        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>#}
-        {#    <p>{{ product}}</p>#}
-{#    {% endfor %}#}
+{#    <li>{{ products.id }}, {{ products.description }}, {{ products.title }}</li>#}
+    {% for product in products %}
+        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>
+    {% endfor %}
 </ul>
 
 
