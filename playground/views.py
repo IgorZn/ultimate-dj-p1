@@ -30,6 +30,20 @@ def say_hello(request):
     products = Product.objects.only('id', 'title', 'collections__title')[:5]
     products = Product.objects.defer('title')[:5]   # всё, кроме  'title'
 
+    # select_related -- ускоряет запрос, за счет прямой инструкции к связанной таблице, а не ч/з
+    # доп вызов уже в самом шаблоне, что провоцирует кучу подзапросов уже при выводе
+    products = Product.objects.select_related('collections').all()
+
+    # для ManyToMany
+    products = Product.objects.prefetch_related('promotions').all()
+
+    # для ManyToMany + related
+    products = Product.objects\
+        .prefetch_related('promotions')\
+        .select_related('collections')\
+        .order_by('unit_price')\
+        .all().reverse()[:5]
+
     context = {
         'name': 'Igor',
         'customers': customers,
