@@ -1,23 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% if name %}
-    <h1>Hello {{ name }}!</h1>
-{% else %}
-    <h>Hello world!</h>
-{% endif %}
-<ul>
-{#    <li>{{ products.id }}, {{ products.description }}, {{ products.title }}</li>#}
-    {% for product in products %}
-{#        <li>id:{{ product.id }} unit_price:{{ product.unit_price }} title:{{ product.title }} collections__title:{{ product.collections__title }}</li>#}
-        <li>{{ product}}</li>
-    {% endfor %}
-</ul>
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    {% if name %}
+        <h1>Hello {{ name }}!</h1>
+    {% else %}
+        <h>Hello world!</h>
+    {% endif %}
+
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Unit_price</th>
+                <th scope="col">Title</th>
+                <th scope="col">Collections__title</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.unit_price }}</td>
+                    <td></td>
+                    <td>{{ product.collections.title}}</td>
+                </tr>
+                {#        <li>{{ product}}</li>#}
 
 
-</body>
-</html>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+
+    </div>
+{% endblock %}
