@@ -36,7 +36,16 @@
 {#            </tbody>#}
 {#        </table>#}
 
-        <li>{{ products }}</li>
+{#        <li>{{ products }}</li>#}
+
+    {% if queryset %}
+        {% for query in queryset %}
+            <p>{{ query.new_id }}</p>
+        {% endfor %}
+    {% endif %}
+
+
+
 
     </div>
 {% endblock %}

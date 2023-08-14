@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q, F
 from django.db.models.aggregates import Count, Max, Sum, Avg, Min
+from django.db.models import Value
 
 from store.models import Customer, Product
 
@@ -54,9 +55,13 @@ def say_hello(request):
         sum=Sum('unit_price')
     )
 
+    queryset = Customer.objects.annotate(is_new_old=Value(True))
+    queryset = Customer.objects.annotate(new_id=F('id') * 2)
+
     context = {
         'name': 'Igor',
         'customers': customers,
-        'products': products
+        'products': products,
+        'queryset': queryset
     }
     return render(request, 'hello.html', context)
