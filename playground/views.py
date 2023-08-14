@@ -61,10 +61,14 @@ def say_hello(request):
     # call DB function CONCAT
     queryset = Customer.objects.annotate(
         full_name=Func(
-            F('first_name'), Value(' '), F('last_name'), function='CONCAT' ))
+            F('first_name'), Value(' '), F('last_name'), function='CONCAT'))
 
+    # queryset = Customer.objects.annotate(
+    #     full_name=Concat('first_name', Value(' '), 'last_name'))
+
+    # Grouping
     queryset = Customer.objects.annotate(
-        full_name=Concat('first_name', Value(' '), 'last_name'))
+        order_count=Count('order'))
 
     context = {
         'name': 'Igor',

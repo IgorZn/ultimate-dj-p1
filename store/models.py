@@ -57,7 +57,7 @@ class Order(models.Model):
 
     placed_at = models.DateField(auto_created=True)
     payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS, default=PAYMENT_P)
-    customer = models.ForeignKey('Customer', on_delete=models.PROTECT, related_name='+')
+    customer = models.ForeignKey('Customer', on_delete=models.PROTECT)
 
 
 class OrderItem(models.Model):
