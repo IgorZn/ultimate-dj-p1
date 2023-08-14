@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q, F
+from django.db.models.aggregates import Count, Max, Sum, Avg, Min
 
 from store.models import Customer, Product
 
@@ -43,6 +44,15 @@ def say_hello(request):
         .select_related('collections')\
         .order_by('unit_price')\
         .all().reverse()[:5]
+
+    # Aggregate, Count, Max
+    products = Product.objects.aggregate(count=Count('unit_price'))
+    products = Product.objects.aggregate(
+        count=Count('unit_price'),
+        min_goo=Min('unit_price'),
+        max_price=Max('unit_price'),
+        sum=Sum('unit_price')
+    )
 
     context = {
         'name': 'Igor',
