@@ -4,6 +4,7 @@ from django.db.models.functions import Concat
 from django.db.models.aggregates import Count, Max, Sum, Avg, Min
 
 from store.models import Customer, Product
+from tags.models import TaggedItem
 
 # Create your views here.
 
@@ -74,6 +75,9 @@ def say_hello(request):
     discounted_price = ExpressionWrapper(F('unit_price') * 0.8, output_field=DecimalField())
     queryset = Product.objects.annotate(
         discounted_price=discounted_price)
+
+    # Custom Object manager
+    queryset = TaggedItem.objects.get_tags_for(Product, 1)
 
     context = {
         'name': 'Igor',
