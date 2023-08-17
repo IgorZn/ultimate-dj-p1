@@ -3,7 +3,7 @@ from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
 from django.db.models.aggregates import Count, Max, Sum, Avg, Min
 
-from store.models import Customer, Product
+from store.models import Customer, Product, Collection
 from tags.models import TaggedItem
 
 # Create your views here.
@@ -78,6 +78,21 @@ def say_hello(request):
 
     # Custom Object manager
     queryset = TaggedItem.objects.get_tags_for(Product, 1)
+
+    # Creating object
+    # collections = Collection()
+    # collections.title = 'Video game'
+    # collections.featured_product = Product(pk=101)
+    # collections.save()
+    # collections.id
+
+    # Creating object, short
+    collections = Collection.objects.create(
+        pk=Collection.objects.aggregate(count=Count('id'))['count'] + 1,
+        title='a',
+        featured_product=Product(pk=1)
+    )
+    collections.id
 
     context = {
         'name': 'Igor',
