@@ -87,19 +87,24 @@ def say_hello(request):
     # collections.id
 
     # Creating object, short
-    # collections = Collection.objects.create(
-    #     pk=Collection.objects.aggregate(count=Count('id'))['count'] + 1,
-    #     title='a',
-    #     featured_product=Product(pk=1)
-    # )
-    # collections.id
+    collections = Collection.objects.create(
+        pk=Collection.objects.aggregate(count=Count('id'))['count'] + 1,
+        title='a',
+        featured_product=Product(pk=1)
+    )
+    collections.id
 
     # Update objects
     obj = Collection.objects.get(pk=101)
     setattr(obj, 'title', 'oooooooooooo')
     obj.save()
 
-
+    # Delete objects
+    # obj = Collection.objects.filter(pk=100)
+    # obj.delete()
+    #
+    # obj = Collection.objects.filter(id__gte=101)
+    # obj.delete()
 
 
     context = {
