@@ -1,9 +1,12 @@
+import datetime
+
 from django.shortcuts import render
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
+from django.db import transaction
 from django.db.models.aggregates import Count, Max, Sum, Avg, Min
 
-from store.models import Customer, Product, Collection
+from store.models import Customer, Product, Collection, Order, OrderItem
 from tags.models import TaggedItem
 
 # Create your views here.
@@ -106,11 +109,65 @@ def say_hello(request):
     # obj = Collection.objects.filter(id__gte=101)
     # obj.delete()
 
+    # # Transactions
+    # from django.db import transaction
+    # order = Order()
+    # order.customer_id = 101
+    # order.save()
+    #
+    # item = OrderItem()
+    # item.order = order
+    # item.product_id = 33
+    # item.quantity = 12
+    # item.unit_price = 41.33
+    # item.save()
+
 
     context = {
         'name': 'Igor',
         'customers': customers,
         'products': products,
         'queryset': queryset
+    }
+    return render(request, 'hello.html', context)
+
+
+def say_transaction(request):
+    with transaction.atomic():
+        # Transactions
+        new_id_order = Order.objects.count() + 1
+        tm = datetime.timedelta(weeks=3)
+        delta = datetime.datetime.now() + tm
+        placed_at = delta.strftime('%Y-%m-%d')
+
+        order = Order.objects.create(
+            pk=new_id_order,
+            customer_id=101,
+            placed_at=placed_at
+        )
+
+        # order = Order(pk=new_id_order)
+        # order.customer_id = 101
+        # order.placed_at = delta.strftime('%Y-%m-%d')
+        # order.save()
+
+        new_order_item_id = OrderItem.objects.count() + 1
+        OrderItem.objects.create(
+            pk=new_order_item_id,
+            order=order,
+            product_id=33,
+            quantity=12,
+            unit_price=41.33
+        )
+
+        # item = OrderItem(pk=new_order_item_id)
+        # item.order = order
+        # item.product_id = 33
+        # item.quantity = 12
+        # item.unit_price = 41.33
+        # item.save()
+
+    context = {
+        'name': 'Igor',
     }
     return render(request, 'hello.html', context)
