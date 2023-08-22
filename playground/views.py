@@ -3,7 +3,7 @@ import datetime
 from django.shortcuts import render
 from django.db.models import Q, F, Value, Func, ExpressionWrapper, DecimalField
 from django.db.models.functions import Concat
-from django.db import transaction
+from django.db import transaction, connection
 from django.db.models.aggregates import Count, Max, Sum, Avg, Min
 
 from store.models import Customer, Product, Collection, Order, OrderItem
@@ -167,7 +167,19 @@ def say_transaction(request):
         # item.unit_price = 41.33
         # item.save()
 
+    # Executing Raw SQL Queries
+    # queryset = Product.objects.raw('SELECT id, title FROM store_product')
+
+    # another approach
+    # cursor = connection.cursor()
+    # cursor.execute('SELECT id, title FROM store_product')
+    # cursor.close()
+
+    with connection.cursor() as cursor:
+        cursor.execute('SELECT id, title FROM store_product')
+
     context = {
         'name': 'Igor',
+        # 'results': list(queryset)
     }
     return render(request, 'hello.html', context)
