@@ -58,6 +58,7 @@ class Customer(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+
 class Order(models.Model):
     PAYMENT_P = 'P'
     PAYMENT_C = 'C'
