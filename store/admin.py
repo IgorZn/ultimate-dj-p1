@@ -6,6 +6,24 @@ from django.urls import reverse
 from . import models
 
 
+class InventoryFilter(admin.SimpleListFilter):
+    title = 'inventory'
+    parameter_name = 'inventory'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('<10', 'Low'),
+            ('>10', 'OK')
+
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == '<10':
+            return queryset.filter(inventory__lt=10)
+        if self.value() == 'OK':
+            return queryset.filter(inventory__gte='10')
+
+
 @admin.register(models.Collection)
 class AdminCollection(admin.ModelAdmin):
     list_display = ['title', 'products_count']
@@ -40,6 +58,7 @@ class AdminProduct(admin.ModelAdmin):
     list_editable = ['title', 'unit_price']
     list_per_page = 25
     list_select_related = ['collections']
+    list_filter = ['last_update', 'collections', InventoryFilter]
 
     def collections_title(self, product):
         return product.collections.title
